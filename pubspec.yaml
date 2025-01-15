@@ -14,6 +14,7 @@ dependencies:
 
   cupertino_icons: ^1.0.8
   flutter_native_splash: ^2.4.4
+  smooth_page_indicator: ^1.2.0+3
 
 dev_dependencies:
   flutter_test:
@@ -35,3 +36,8 @@ flutter:
     - family: Cairo
       fonts:
         - asset: asset/font/Cairo-VariableFont_slnt,wght.ttf
+    - family: Inter
+      fonts:
+        - asset: asset/font/Inter-Italic-VariableFont_opsz,wght.ttf
+        - asset: asset/font/Inter-VariableFont_opsz,wght.ttf
+      
