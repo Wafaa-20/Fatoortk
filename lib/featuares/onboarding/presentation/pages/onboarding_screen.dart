@@ -1,4 +1,3 @@
-import 'package:fatoortk/core/text/app_text.dart';
 import 'package:fatoortk/core/theme/app_color.dart';
 import 'package:fatoortk/core/widgets/text_btn.dart';
 import 'package:fatoortk/featuares/onboarding/presentation/widget/onboarding_body.dart';
@@ -21,11 +20,7 @@ class OnboardingScreen extends StatelessWidget {
               text: 'Skip',
             ),
           ),
-          OnboardingBody(
-            image: 'asset/image/logo.png',
-            title: AppText.onboardingTitle1,
-            subTitle: AppText.onboardingSubTitle1,
-          ),
+          OnboardingBody(),
         ]),
       ),
     ));

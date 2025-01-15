@@ -8,4 +8,6 @@ abstract class AppColor {
   static const Color dot = Color(0xff2C3240);
   static const Color text1 = Color(0xff000000);
   static const Color text2 = Color(0xff64728E);
+  static const Color checked = Color(0xffD5EEF9);
+  static const Color unchecked = Color(0xffC5C6CC);
 }
