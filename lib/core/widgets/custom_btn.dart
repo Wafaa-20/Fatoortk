@@ -1,3 +1,4 @@
+import 'package:fatoortk/core/text/text_styles.dart';
 import 'package:fatoortk/core/theme/app_color.dart';
 import 'package:flutter/material.dart';
 
@@ -15,20 +16,14 @@ class CustomBtn extends StatelessWidget {
       height: 48,
       width: 340,
       child: ElevatedButton(
-        onPressed: () {},
-        style: ElevatedButton.styleFrom(
-          backgroundColor: AppColor.button,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
+          onPressed: () {},
+          style: ElevatedButton.styleFrom(
+            backgroundColor: AppColor.button,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
           ),
-        ),
-        child: Text(
-          text,
-          style: const TextStyle(
-            color: AppColor.background2,
-          ),
-        ),
-      ),
+          child: Text(text, style: TextStyles.textBtn)),
     );
   }
 }

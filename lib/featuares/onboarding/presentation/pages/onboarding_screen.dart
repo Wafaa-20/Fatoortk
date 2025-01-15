@@ -14,7 +14,7 @@ class OnboardingScreen extends StatelessWidget {
       backgroundColor: AppColor.background2,
       body: Padding(
         padding: const EdgeInsets.all(10.0),
-        child: Column(children: [
+        child: ListView(physics: const BouncingScrollPhysics(), children: [
           const Align(
             alignment: Alignment.topRight,
             child: TextBtn(
