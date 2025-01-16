@@ -9,14 +9,17 @@ class SmoothPageIndecator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SmoothPageIndicator(
-        controller: controller,
-        count: 3,
-        effect: const ExpandingDotsEffect(
-          activeDotColor: AppColor.button,
-          dotColor: AppColor.background1,
-          dotWidth: 10,
-          dotHeight: 8,
-        ));
+    return Align(
+      alignment: Alignment.bottomCenter,
+      child: SmoothPageIndicator(
+          controller: controller,
+          count: 3,
+          effect: const ExpandingDotsEffect(
+            activeDotColor: AppColor.button,
+            dotColor: AppColor.background1,
+            dotWidth: 10,
+            dotHeight: 8,
+          )),
+    );
   }
 }
