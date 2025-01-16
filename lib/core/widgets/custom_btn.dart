@@ -6,9 +6,11 @@ class CustomBtn extends StatelessWidget {
   const CustomBtn({
     super.key,
     required this.text,
+    this.onPressed,
   });
 
   final String text;
+  final VoidCallback? onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +18,7 @@ class CustomBtn extends StatelessWidget {
       height: 48,
       width: double.infinity,
       child: ElevatedButton(
-          onPressed: () {},
+          onPressed: onPressed,
           style: ElevatedButton.styleFrom(
             backgroundColor: AppColor.button,
             shape: RoundedRectangleBorder(

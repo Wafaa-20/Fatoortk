@@ -5,14 +5,18 @@ import 'package:fatoortk/featuares/onboarding/presentation/widget/onboarding_las
 import 'package:flutter/material.dart';
 
 class OnboardingBody extends StatelessWidget {
+  const OnboardingBody(
+      {super.key, required this.controller, required this.onPageChanged});
+
   final PageController controller;
-  const OnboardingBody({super.key, required this.controller});
+  final Function(int)? onPageChanged;
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: 545,
       child: PageView.builder(
+        onPageChanged: onPageChanged,
         physics: const BouncingScrollPhysics(),
         controller: controller,
         itemCount: onbordingData.length + 1,
