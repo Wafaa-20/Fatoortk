@@ -1,7 +1,5 @@
-// import 'package:fatoortk/featuares/splash/presentation/pages/splash_screen.dart';
+import 'package:fatoortk/core/routes/app_router.dart';
 import 'package:flutter/material.dart';
-
-import 'featuares/onboarding/presentation/pages/onboarding_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,9 +10,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       debugShowCheckedModeBanner: false,
-      home: OnboardingScreen(),
+      routerConfig: router,
     );
   }
 }

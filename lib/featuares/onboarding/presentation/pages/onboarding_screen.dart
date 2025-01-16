@@ -5,6 +5,7 @@ import 'package:fatoortk/featuares/onboarding/data/models/onboarding_model.dart'
 import 'package:fatoortk/featuares/onboarding/presentation/widget/onboarding_body.dart';
 import 'package:fatoortk/featuares/onboarding/presentation/widget/smooth_page_indecator.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -29,7 +30,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             alignment: Alignment.topRight,
             child: TextBtn(
               text: 'Skip',
-              onPressed: () {},
+              onPressed: () => context.go("/login"),
             ),
           ),
           OnboardingBody(
@@ -46,9 +47,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           currentIndex == onbordingData.length
               ? CustomBtn(
                   text: 'Start',
-                  onPressed: () {
-                    // Navigator.pushNamed(context, '/login');
-                  },
+                  onPressed: () => context.go("/login"),
                 )
               : CustomBtn(
                   text: 'Next',
