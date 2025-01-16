@@ -16,7 +16,7 @@ List<OnboardingModel> onbordingData = [
     subTitle: AppText.onboardingSubTitle1,
   ),
   OnboardingModel(
-    image: 'asset/image/logo.png',
+    image: 'asset/image/page2.png',
     title: AppText.onboardingTitle2,
     subTitle: AppText.onboardingSubTitle2,
   ),

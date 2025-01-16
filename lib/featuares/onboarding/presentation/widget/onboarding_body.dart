@@ -25,7 +25,7 @@ class OnboardingBody extends StatelessWidget {
                 decoration: BoxDecoration(
                   image: DecorationImage(
                     image: AssetImage(onbordingData[index].image),
-                    fit: BoxFit.fill,
+                    fit: BoxFit.contain,
                   ),
                 ),
               ),
