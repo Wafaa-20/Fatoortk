@@ -1,6 +1,4 @@
 flutter_native_splash:
-
-  
   background_image: asset/image/splash.png
   
   android: true
