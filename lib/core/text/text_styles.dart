@@ -8,6 +8,20 @@ abstract class TextStyles {
     height: 1.21,
     color: AppColor.text1,
   );
+  static const brand1 = TextStyle(
+    fontSize: 48,
+    fontWeight: FontWeight.bold,
+    height: 1.22,
+    color: AppColor.button,
+    fontFamily: 'Oxanium',
+  );
+  static const brand2 = TextStyle(
+    fontSize: 38,
+    fontWeight: FontWeight.bold,
+    height: 1.0,
+    color: AppColor.button,
+    fontFamily: 'Cairo',
+  );
 
   static const subTitel = TextStyle(
       fontSize: 15,

@@ -1,4 +1,6 @@
+import 'package:fatoortk/core/database/cache/cache_helper.dart';
 import 'package:fatoortk/core/functions/navigation.dart';
+import 'package:fatoortk/core/services/service_locator.dart';
 import 'package:fatoortk/core/theme/app_color.dart';
 import 'package:fatoortk/core/widgets/text_btn.dart';
 import 'package:fatoortk/featuares/onboarding/presentation/bloc/page_changed_cubit.dart';
@@ -33,7 +35,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               alignment: Alignment.topRight,
               child: TextBtn(
                 text: 'Skip',
-                onPressed: () => customReplacementNavigate(context, "/login"),
+                onPressed: () {
+                  getIt<CacheHelper>()
+                      .saveData(key: 'isOnboardingVisited', value: true);
+                  customReplacementNavigate(context, "/login");
+                },
               ),
             ),
             BlocBuilder<PageChangedCubit, int>(

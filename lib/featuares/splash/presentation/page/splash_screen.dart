@@ -1,3 +1,5 @@
+import 'package:fatoortk/core/theme/app_color.dart';
+import 'package:fatoortk/featuares/splash/presentation/widget/splash_body.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatelessWidget {
@@ -5,13 +7,12 @@ class SplashScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-        ]
-
-
+    return const SafeArea(
+      child: Scaffold(
+        backgroundColor: AppColor.background1,
+        body: Center(
+          child: SplashBody(),
+        ),
       ),
     );
   }
