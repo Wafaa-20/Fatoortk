@@ -13,7 +13,6 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^1.0.8
-  flutter_native_splash: ^2.4.4
   smooth_page_indicator: ^1.2.0+3
   flutter_bloc: ^9.0.0
   go_router: ^14.6.3
