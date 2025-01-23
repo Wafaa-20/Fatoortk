@@ -21,3 +21,6 @@ final class AuthFailure extends AuthState {
 final class AuthTimeout extends AuthState {}
 
 final class CodeVerified extends AuthState {}
+
+
+final class TermsAndConditionsUpdateState extends AuthState {}

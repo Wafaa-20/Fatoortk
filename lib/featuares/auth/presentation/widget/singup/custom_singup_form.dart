@@ -1,4 +1,5 @@
 import 'package:fatoortk/core/text/app_text.dart';
+import 'package:fatoortk/core/theme/app_color.dart';
 import 'package:fatoortk/core/widgets/custom_btn.dart';
 import 'package:fatoortk/featuares/auth/presentation/bloc/auth_cubit/cubit/auth_cubit.dart';
 import 'package:fatoortk/featuares/auth/presentation/bloc/auth_cubit/cubit/auth_state.dart';
@@ -42,12 +43,18 @@ class CustomSingUpForm extends StatelessWidget {
             ),
             const SizedBox(height: 24),
             const TermsAndConditions(),
-            const SizedBox(height: 60),
-            const SizedBox(height: 24),
+            const SizedBox(height: 35),
             CustomBtn(
               text: AppText.continues,
+              color: authCubit.termsAndConditionsUpdatedCheckBoxValue == false
+                  ? AppColor.background1
+                  : null,
               onPressed: () {
-                authCubit.singUpWithPhoneNumber();
+                if (authCubit.termsAndConditionsUpdatedCheckBoxValue == true) {
+                  if (authCubit.singupFormKey.currentState!.validate()) {
+                    authCubit.singUpWithPhoneNumber();
+                  }
+                }
               },
             ),
           ]),

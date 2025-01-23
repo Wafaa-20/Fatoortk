@@ -1,4 +1,5 @@
 import 'package:fatoortk/core/theme/app_color.dart';
+import 'package:fatoortk/featuares/auth/presentation/bloc/auth_cubit/cubit/auth_cubit.dart';
 import 'package:fatoortk/featuares/auth/presentation/bloc/checkboc_cuibt.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -23,6 +24,8 @@ class CustomCheckbox extends StatelessWidget {
             ),
             onChanged: (bool? value) {
               context.read<CheckbocCuibt>().updateCheckBox(value!);
+              BlocProvider.of<AuthCubit>(context)
+                  .updateTermsAndConditionsCheckbox(newValue: value);
             },
           );
         },

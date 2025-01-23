@@ -14,7 +14,9 @@ class AuthCubit extends Cubit<AuthState> {
   String? name;
   String? email;
   String? phoneNum;
-  GlobalKey<FormState> singupFormKey= GlobalKey();
+  
+  bool? termsAndConditionsUpdatedCheckBoxValue = false;
+  GlobalKey<FormState> singupFormKey = GlobalKey();
 
   singUpWithPhoneNumber() async {
     try {
@@ -66,5 +68,10 @@ class AuthCubit extends Cubit<AuthState> {
     } catch (e) {
       emit(AuthFailure(errorMessage: 'Invalid OTP: $e'));
     }
+  }
+
+  updateTermsAndConditionsCheckbox({required newValue}) {
+    termsAndConditionsUpdatedCheckBoxValue = newValue;
+    emit(TermsAndConditionsUpdateState());
   }
 }

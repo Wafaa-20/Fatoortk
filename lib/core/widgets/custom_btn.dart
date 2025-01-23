@@ -3,13 +3,10 @@ import 'package:fatoortk/core/theme/app_color.dart';
 import 'package:flutter/material.dart';
 
 class CustomBtn extends StatelessWidget {
-  const CustomBtn({
-    super.key,
-    required this.text,
-    this.onPressed,
-  });
+  const CustomBtn({super.key, required this.text, this.onPressed, this.color});
 
   final String text;
+  final Color? color;
   final VoidCallback? onPressed;
 
   @override
@@ -20,7 +17,7 @@ class CustomBtn extends StatelessWidget {
       child: ElevatedButton(
           onPressed: onPressed,
           style: ElevatedButton.styleFrom(
-            backgroundColor: AppColor.button,
+            backgroundColor: color ?? AppColor.button,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
             ),
