@@ -11,7 +11,7 @@ class SplashCubit extends Cubit<String> {
         getIt<CacheHelper>().getData(key: "isOnboardingVisited") ?? false;
     //if yes, navigate to login page
     if (isOnboardingVisited) {
-      emit('/singUp');
+      emit('/login');
       //if no, navigate to onboarding
     } else {
       emit('/onboarding');

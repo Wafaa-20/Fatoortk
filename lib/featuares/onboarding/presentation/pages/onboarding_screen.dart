@@ -36,7 +36,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 onPressed: () {
                   getIt<CacheHelper>()
                       .saveData(key: 'isOnboardingVisited', value: true);
-                  customReplacementNavigate(context, "/singUp");
+                  customReplacementNavigate(context, "/login");
                 },
               ),
             ),

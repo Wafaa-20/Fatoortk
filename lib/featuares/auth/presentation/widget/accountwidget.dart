@@ -1,11 +1,14 @@
 import 'package:fatoortk/core/text/text_styles.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
-class AccountWidget extends StatelessWidget {
-  const AccountWidget({super.key, required this.text1, required this.text2});
+class AccountTextWidget extends StatelessWidget {
+  const AccountTextWidget(
+      {super.key, required this.text1, required this.text2, this.onTap});
 
   final String text1;
   final String text2;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -18,6 +21,7 @@ class AccountWidget extends StatelessWidget {
         TextSpan(
           text: text2,
           style: TextStyles.inter14blue,
+          recognizer: TapGestureRecognizer()..onTap = onTap,
         ),
       ]),
     );

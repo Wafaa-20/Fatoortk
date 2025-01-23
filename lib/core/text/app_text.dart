@@ -18,7 +18,7 @@ abstract class AppText {
   //Login page Text
   static const String welcome = 'Welcome!';
   static const String login = 'Login';
-  static const String register = 'Register now';
+  static const String register = ' Register now';
   static const String phone = 'Phone number';
   static const String member = 'Not a member?';
   static const String forgot = 'Or continue with';

@@ -3,7 +3,7 @@ import 'package:fatoortk/core/theme/app_color.dart';
 import 'package:fatoortk/core/widgets/custom_btn.dart';
 import 'package:fatoortk/featuares/auth/presentation/bloc/auth_cubit/cubit/auth_cubit.dart';
 import 'package:fatoortk/featuares/auth/presentation/bloc/auth_cubit/cubit/auth_state.dart';
-import 'package:fatoortk/featuares/auth/presentation/widget/singup/custom_text_form_field.dart';
+import 'package:fatoortk/featuares/auth/presentation/widget/custom_text_form_field.dart';
 import 'package:fatoortk/featuares/auth/presentation/widget/singup/terms_and_conditions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

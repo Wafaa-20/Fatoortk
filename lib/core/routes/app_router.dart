@@ -1,6 +1,7 @@
 import 'package:fatoortk/core/services/service_locator.dart';
 import 'package:fatoortk/featuares/auth/presentation/bloc/auth_cubit/cubit/auth_cubit.dart';
 import 'package:fatoortk/featuares/auth/presentation/pages/login_page.dart';
+import 'package:fatoortk/featuares/auth/presentation/pages/otp_page.dart';
 import 'package:fatoortk/featuares/auth/presentation/pages/singup_page.dart';
 import 'package:fatoortk/featuares/onboarding/presentation/pages/onboarding_screen.dart';
 import 'package:fatoortk/featuares/splash/presentation/page/splash_screen.dart';
@@ -28,6 +29,13 @@ final GoRouter router = GoRouter(routes: [
     builder: (context, state) => BlocProvider(
       create: (context) => getIt<AuthCubit>(),
       child: const SingupPage(),
+    ),
+  ),
+  GoRoute(
+    path: "/otp",
+    builder: (context, state) => BlocProvider(
+      create: (context) => getIt<AuthCubit>(),
+      child: const OtpPage(),
     ),
   )
 ]);

@@ -14,9 +14,10 @@ class AuthCubit extends Cubit<AuthState> {
   String? name;
   String? email;
   String? phoneNum;
-  
+
   bool? termsAndConditionsUpdatedCheckBoxValue = false;
   GlobalKey<FormState> singupFormKey = GlobalKey();
+  GlobalKey<FormState> loginFormKey = GlobalKey();
 
   singUpWithPhoneNumber() async {
     try {
@@ -30,10 +31,18 @@ class AuthCubit extends Cubit<AuthState> {
           emit(AuthSuccess());
         },
         verificationFailed: (FirebaseAuthException e) {
-          emit(
-            AuthFailure(
-                errorMessage: 'Verification failed with error: ${e.message}.'),
-          );
+          if (e.code == 'invalid-phone-number') {
+            emit(AuthFailure(errorMessage: 'Invalid phone number'));
+          } else if (e.code == 'credential-already-in-use') {
+            emit(AuthFailure(
+                errorMessage: 'This phone number is already registered'));
+          } else {
+            emit(
+              AuthFailure(
+                  errorMessage:
+                      'Verification failed with error: ${e.message}.'),
+            );
+          }
         },
         codeSent: (String sentVerificationId, int? resendToken) async {
           verificationId = sentVerificationId;
