@@ -34,4 +34,51 @@ abstract class TextStyles {
       fontWeight: FontWeight.w600,
       color: AppColor.background2,
       fontFamily: 'Inter');
+
+  static const inter24black = TextStyle(
+    fontSize: 29,
+    fontWeight: FontWeight.w900,
+    color: AppColor.text1,
+    fontFamily: 'Inter',
+  );
+
+  static const inter20black = TextStyle(
+    fontSize: 20,
+    fontWeight: FontWeight.w900,
+    color: AppColor.text1,
+    fontFamily: 'Inter',
+  );
+  static const inter16grey = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.normal,
+    color: AppColor.text2,
+    fontFamily: 'Inter',
+  );
+
+  static const inter14grey = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.normal,
+    color: AppColor.text2,
+    fontFamily: 'Inter',
+  );
+
+   static const inter14blue = TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.bold,
+    color: AppColor.button,
+    fontFamily: 'Inter',
+  );
+
+  static const inter15labelText = TextStyle(
+    fontSize: 15,
+    fontWeight: FontWeight.bold,
+    color: AppColor.labelText,
+    fontFamily: 'Inter',
+  );
+
+  static const inter15hintText = TextStyle(
+    fontSize: 15,
+    color: AppColor.background1,
+    fontFamily: 'Inter',
+  );
 }

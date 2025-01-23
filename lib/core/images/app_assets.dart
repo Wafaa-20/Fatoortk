@@ -13,4 +13,6 @@ class Assets {
   /// Assets for assetsImagePage2
   /// asset/image/page2.png
   static const String assetsImagePage2 = "asset/image/page2.png";
+
+  static const String welcomeBanner = "asset/image/welcome banner.png";
 }

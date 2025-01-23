@@ -8,10 +8,10 @@ class SplashCubit extends Cubit<String> {
   void checkOnboardingStatus() {
     //check if user has completed onboarding
     bool isOnboardingVisited =
-        getIt<CacheHelper>().getData(key:"isOnboardingVisited") ?? false;
+        getIt<CacheHelper>().getData(key: "isOnboardingVisited") ?? false;
     //if yes, navigate to login page
     if (isOnboardingVisited) {
-      emit('/login');
+      emit('/singUp');
       //if no, navigate to onboarding
     } else {
       emit('/onboarding');

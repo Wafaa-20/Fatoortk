@@ -1,7 +1,6 @@
 import 'package:fatoortk/core/database/cache/cache_helper.dart';
 import 'package:fatoortk/core/functions/navigation.dart';
 import 'package:fatoortk/core/services/service_locator.dart';
-import 'package:fatoortk/core/theme/app_color.dart';
 import 'package:fatoortk/core/widgets/text_btn.dart';
 import 'package:fatoortk/featuares/onboarding/presentation/bloc/page_changed_cubit.dart';
 import 'package:fatoortk/featuares/onboarding/presentation/widget/get_button_action.dart';
@@ -27,7 +26,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       create: (context) => PageChangedCubit(),
       child: SafeArea(
           child: Scaffold(
-        backgroundColor: AppColor.background2,
         body: Padding(
           padding: const EdgeInsets.all(10.0),
           child: ListView(physics: const BouncingScrollPhysics(), children: [
@@ -38,7 +36,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 onPressed: () {
                   getIt<CacheHelper>()
                       .saveData(key: 'isOnboardingVisited', value: true);
-                  customReplacementNavigate(context, "/login");
+                  customReplacementNavigate(context, "/singUp");
                 },
               ),
             ),

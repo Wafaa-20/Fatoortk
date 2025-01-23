@@ -12,14 +12,14 @@ class CheckboxOnbording extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-            child: BlocBuilder<CheckboxCubit, List<bool>>(
+            child: BlocBuilder<CheckboxObCubit, List<bool>>(
                 builder: (context, isChecked) {
               return ListView.builder(
                 itemCount: data.option.length,
                 itemBuilder: (context, index) {
                   return GestureDetector(
                     onTap: () {
-                      context.read<CheckboxCubit>().toggleCheckbox(index);
+                      context.read<CheckboxObCubit>().toggleCheckbox(index);
                     },
                     child: Container(
                         margin: const EdgeInsets.symmetric(vertical: 5),

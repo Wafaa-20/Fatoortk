@@ -15,7 +15,7 @@ class OnboardingOptions extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => CheckboxCubit(data),
+      create: (context) => CheckboxObCubit(data),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

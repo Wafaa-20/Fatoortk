@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "447234138731",
+    "project_id": "fatoortak-8afe3",
+    "storage_bucket": "fatoortak-8afe3.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:447234138731:android:8ad7a09d88fa005f8e872e",
+        "android_client_info": {
+          "package_name": "com.example.fatoortk"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDj5173CW9-ACClffuJUHDpjj5N_1sl_mc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
