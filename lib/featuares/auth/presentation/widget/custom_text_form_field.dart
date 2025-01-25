@@ -6,44 +6,44 @@ class CustomTextFormField extends StatelessWidget {
   const CustomTextFormField(
       {super.key,
       required this.labelText,
-      required this.hintText,
+      this.hintText,
+      this.prefixIcon,
       this.onChanged,
       this.onFieldSubmitted});
 
   final String labelText;
-  final String hintText;
+  final String? hintText;
   final Function(String)? onChanged;
   final Function(String)? onFieldSubmitted;
+  final Widget? prefixIcon;
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(labelText, style: TextStyles.inter15labelText),
-          const SizedBox(height: 10),
-          TextFormField(
-            onChanged: onChanged,
-            onFieldSubmitted: onFieldSubmitted,
-            validator: (value) {
-              if (value!.isEmpty) {
-                return 'This field is required';
-              } else {
-                return null;
-              }
-            },
-            decoration: InputDecoration(
-              hintText: hintText,
-              hintStyle: TextStyles.inter15hintText,
-              border: getBorderStyle(AppColor.unchecked),
-              enabledBorder: getBorderStyle(AppColor.unchecked),
-              focusedBorder: getBorderStyle(AppColor.button),
-            ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(labelText, style: TextStyles.inter15labelText),
+        const SizedBox(height: 10),
+        TextFormField(
+          onChanged: onChanged,
+          onFieldSubmitted: onFieldSubmitted,
+          validator: (value) {
+            if (value!.isEmpty) {
+              return 'This field is required';
+            } else {
+              return null;
+            }
+          },
+          decoration: InputDecoration(
+            hintText: hintText,
+            hintStyle: TextStyles.inter15hintText,
+            border: getBorderStyle(AppColor.unchecked),
+            enabledBorder: getBorderStyle(AppColor.unchecked),
+            focusedBorder: getBorderStyle(AppColor.button),
+            prefixIcon: prefixIcon,
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 

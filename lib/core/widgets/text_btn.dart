@@ -1,3 +1,5 @@
+import 'package:fatoortk/core/text/text_styles.dart';
+import 'package:fatoortk/core/theme/app_color.dart';
 import 'package:flutter/material.dart';
 
 class TextBtn extends StatelessWidget {
@@ -7,6 +9,14 @@ class TextBtn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextButton(onPressed: onPressed, child: Text(text));
+    return TextButton(
+      onPressed: onPressed,
+      child: Text(
+        text,
+        style: TextStyles.inter14grey.copyWith(
+          color: AppColor.button,
+        ),
+      ),
+    );
   }
 }

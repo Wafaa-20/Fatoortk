@@ -15,6 +15,8 @@ class AuthCubit extends Cubit<AuthState> {
   String? email;
   String? phoneNum;
 
+  String? countryCode;
+
   bool? termsAndConditionsUpdatedCheckBoxValue = false;
   GlobalKey<FormState> singupFormKey = GlobalKey();
   GlobalKey<FormState> loginFormKey = GlobalKey();
@@ -46,7 +48,6 @@ class AuthCubit extends Cubit<AuthState> {
         },
         codeSent: (String sentVerificationId, int? resendToken) async {
           verificationId = sentVerificationId;
-
           emit(CodeSent(verificationId: sentVerificationId));
         },
         codeAutoRetrievalTimeout: (String timeoutVerificationId) {
@@ -59,7 +60,7 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-  signInWithOtp(String smsCode) async {
+  signUpWithOtp(String smsCode) async {
     if (verificationId == null) {
       emit(AuthFailure(errorMessage: 'Verification id is null'));
       return;
@@ -82,5 +83,10 @@ class AuthCubit extends Cubit<AuthState> {
   updateTermsAndConditionsCheckbox({required newValue}) {
     termsAndConditionsUpdatedCheckBoxValue = newValue;
     emit(TermsAndConditionsUpdateState());
+  }
+
+  updateSelectedCountryCode(String selectedCode) {
+    countryCode = selectedCode;
+    emit(CountryCodeUpdateState());
   }
 }

@@ -22,5 +22,6 @@ final class AuthTimeout extends AuthState {}
 
 final class CodeVerified extends AuthState {}
 
-
 final class TermsAndConditionsUpdateState extends AuthState {}
+
+final class CountryCodeUpdateState extends AuthState {}
