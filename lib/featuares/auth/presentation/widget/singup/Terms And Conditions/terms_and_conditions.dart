@@ -1,6 +1,6 @@
 import 'package:fatoortk/core/text/app_text.dart';
 import 'package:fatoortk/core/text/text_styles.dart';
-import 'package:fatoortk/featuares/auth/presentation/widget/singup/custom_checkbox.dart';
+import 'package:fatoortk/featuares/auth/presentation/widget/singup/Terms%20And%20Conditions/custom_checkbox.dart';
 import 'package:flutter/material.dart';
 
 class TermsAndConditions extends StatelessWidget {

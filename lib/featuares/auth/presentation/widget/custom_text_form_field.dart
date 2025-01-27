@@ -1,18 +1,20 @@
 import 'package:fatoortk/core/text/text_styles.dart';
-import 'package:fatoortk/core/theme/app_color.dart';
 import 'package:flutter/material.dart';
 
 class CustomTextFormField extends StatelessWidget {
-  const CustomTextFormField(
-      {super.key,
-      required this.labelText,
-      this.hintText,
-      this.prefixIcon,
-      this.onChanged,
-      this.onFieldSubmitted});
+  const CustomTextFormField({
+    super.key,
+    required this.labelText,
+    this.hintText,
+    this.prefixIcon,
+    this.onChanged,
+    this.onFieldSubmitted,
+    required this.controller,
+  });
 
   final String labelText;
   final String? hintText;
+  final TextEditingController controller;
   final Function(String)? onChanged;
   final Function(String)? onFieldSubmitted;
   final Widget? prefixIcon;
@@ -22,14 +24,18 @@ class CustomTextFormField extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(labelText, style: TextStyles.inter15labelText),
+        Text(
+          labelText,
+          style: TextStyles.inter15labelText,
+        ),
         const SizedBox(height: 10),
         TextFormField(
+          controller: controller,
           onChanged: onChanged,
           onFieldSubmitted: onFieldSubmitted,
           validator: (value) {
             if (value!.isEmpty) {
-              return 'This field is required';
+              return '$hintText is missing';
             } else {
               return null;
             }
@@ -37,20 +43,10 @@ class CustomTextFormField extends StatelessWidget {
           decoration: InputDecoration(
             hintText: hintText,
             hintStyle: TextStyles.inter15hintText,
-            border: getBorderStyle(AppColor.unchecked),
-            enabledBorder: getBorderStyle(AppColor.unchecked),
-            focusedBorder: getBorderStyle(AppColor.button),
             prefixIcon: prefixIcon,
           ),
         ),
       ],
-    );
-  }
-
-  OutlineInputBorder getBorderStyle(Color borderColor) {
-    return OutlineInputBorder(
-      borderRadius: const BorderRadius.all(Radius.circular(12)),
-      borderSide: BorderSide(color: borderColor, width: 2.0),
     );
   }
 }

@@ -1,5 +1,4 @@
 import 'package:fatoortk/core/text/text_styles.dart';
-import 'package:fatoortk/core/theme/app_color.dart';
 import 'package:flutter/material.dart';
 
 class CustomBtn extends StatelessWidget {
@@ -17,10 +16,12 @@ class CustomBtn extends StatelessWidget {
       child: ElevatedButton(
           onPressed: onPressed,
           style: ElevatedButton.styleFrom(
-            backgroundColor: color ?? AppColor.button,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
-            ),
+            backgroundColor: color ??
+                Theme.of(context)
+                    .elevatedButtonTheme
+                    .style
+                    ?.backgroundColor
+                    ?.resolve({}),
           ),
           child: Text(text, style: TextStyles.textBtn)),
     );

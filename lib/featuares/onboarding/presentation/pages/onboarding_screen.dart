@@ -34,7 +34,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               child: TextBtn(
                 text: 'Skip',
                 onPressed: () {
-                  getIt<CacheHelper>()
+                  serviceLocator<CacheHelper>()
                       .saveData(key: 'isOnboardingVisited', value: true);
                   customReplacementNavigate(context, "/login");
                 },

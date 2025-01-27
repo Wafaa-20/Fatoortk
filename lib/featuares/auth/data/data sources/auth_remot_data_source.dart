@@ -37,11 +37,15 @@ class AuthRemotDataSourceImpl implements AuthRemotDataSource {
     try {
       await firebaseAuth.verifyPhoneNumber(
         phoneNumber: phoneNumber,
-        verificationCompleted: (PhoneAuthCredential credential) async {},
+        timeout: const Duration(seconds: 60),
+        verificationCompleted: (PhoneAuthCredential credential) async {
+          await firebaseAuth.signInWithCredential(credential);
+          completer.complete('Verification completed');
+        },
         verificationFailed: (FirebaseAuthException e) {
           completer.completeError(Failures('Verification failed ${e.message}'));
         },
-        codeSent: (String verificationId, int? resendToken) {
+        codeSent: (String verificationId, int? resendToken) async {
           completer.complete(verificationId);
         },
         codeAutoRetrievalTimeout: (String verificationId) {
@@ -63,9 +67,9 @@ class AuthRemotDataSourceImpl implements AuthRemotDataSource {
     String smsCode,
   ) async {
     try {
-      final verificationId = await smsOtp(phoneNumber);
+      
       final PhoneAuthCredential credential = PhoneAuthProvider.credential(
-        verificationId: verificationId!,
+        verificationId: id,
         smsCode: smsCode,
       );
       final userCredential =

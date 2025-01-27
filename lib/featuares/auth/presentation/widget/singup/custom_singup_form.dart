@@ -3,55 +3,64 @@ import 'package:fatoortk/core/functions/navigation.dart';
 import 'package:fatoortk/core/text/app_text.dart';
 import 'package:fatoortk/core/theme/app_color.dart';
 import 'package:fatoortk/core/widgets/custom_btn.dart';
-import 'package:fatoortk/featuares/auth/presentation/bloc/auth_cubit/cubit/auth_cubit.dart';
-import 'package:fatoortk/featuares/auth/presentation/bloc/auth_cubit/cubit/auth_state.dart';
-import 'package:fatoortk/featuares/auth/presentation/widget/country_code.dart';
+import 'package:fatoortk/featuares/auth/presentation/bloc/auth%20bloc/auth_bloc.dart';
 import 'package:fatoortk/featuares/auth/presentation/widget/custom_text_form_field.dart';
-import 'package:fatoortk/featuares/auth/presentation/widget/singup/terms_and_conditions.dart';
+import 'package:fatoortk/featuares/auth/presentation/widget/singup/Terms%20And%20Conditions/terms_and_conditions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class CustomSingUpForm extends StatelessWidget {
+class CustomSingUpForm extends StatefulWidget {
   const CustomSingUpForm({super.key});
 
   @override
+  State<CustomSingUpForm> createState() => _CustomSingUpFormState();
+}
+
+class _CustomSingUpFormState extends State<CustomSingUpForm> {
+  final nameController = TextEditingController();
+  final emailController = TextEditingController();
+  final phoneNumperController = TextEditingController();
+
+  @override
+  void dispose() {
+    nameController.dispose();
+    emailController.dispose();
+    phoneNumperController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return BlocConsumer<AuthCubit, AuthState>(
+    return BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) {
-        if (state is AuthSuccess) {
-          showToast('Account Created Successfully');
+        if(state is SmsOtpSentState) {
+          customReplacementNavigate(context, '/otp');
         } else if (state is AuthFailure) {
-          showToast(state.errorMessage);
-        } else if (state is CodeSent) {
-          customNavigate(context, '/otp');
+          showToast(state.message);
         }
       },
       builder: (context, state) {
-        AuthCubit authCubit = BlocProvider.of<AuthCubit>(context);
+        AuthBloc authBloc = context.read<AuthBloc>();
         return Form(
-          key: authCubit.singupFormKey,
+          key: authBloc.singupFormKey,
           child: Column(children: [
             const SizedBox(height: 24),
             CustomTextFormField(
               labelText: AppText.name,
               hintText: AppText.hintName,
-              onChanged: (name) {
-                authCubit.name = name;
-              },
+              controller: nameController,
             ),
+            const SizedBox(height: 16),
             CustomTextFormField(
               labelText: AppText.email,
               hintText: AppText.hintEmail,
-              onChanged: (email) {
-                authCubit.email = email;
-              },
+              controller: emailController,
             ),
+            const SizedBox(height: 16),
             CustomTextFormField(
               labelText: AppText.phoneNumber,
-              prefixIcon: const CountryCode(),
-              onChanged: (phoneNumber) {
-                authCubit.phoneNum = phoneNumber;
-              },
+              // prefixIcon: const CountryCode(),
+              controller: phoneNumperController,
             ),
             const SizedBox(height: 24),
             const TermsAndConditions(),
@@ -62,15 +71,19 @@ class CustomSingUpForm extends StatelessWidget {
                   )
                 : CustomBtn(
                     text: AppText.continues,
-                    color: authCubit.termsAndConditionsUpdatedCheckBoxValue ==
-                            false
+                    color: authBloc.checkBoxValue == false
                         ? AppColor.background1
                         : null,
                     onPressed: () {
-                      if (authCubit.termsAndConditionsUpdatedCheckBoxValue ==
-                          true) {
-                        if (authCubit.singupFormKey.currentState!.validate()) {
-                          authCubit.singUpWithPhoneNumber();
+                      if (authBloc.checkBoxValue == true) {
+                        if (authBloc.singupFormKey.currentState!.validate()) {
+                          authBloc.add(
+                            AuthSingUpEvent(
+                              name: nameController.text,
+                              email: emailController.text,
+                              phoneNumber: phoneNumperController.text,
+                            ),
+                          );
                         }
                       } else {
                         showToast('Please accept the terms and conditions');

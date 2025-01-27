@@ -5,10 +5,10 @@ import 'package:fatoortk/featuares/auth/data/model/app_user_model.dart';
 import 'package:fatoortk/featuares/auth/domain/repository/auth_repository.dart';
 import 'package:fpdart/fpdart.dart';
 
-class AuthRepositoryIml implements AuthRepository {
+class AuthRepositoryImpl implements AuthRepository {
   final AuthRemotDataSource remotDataSource;
 
-  AuthRepositoryIml({required this.remotDataSource});
+  AuthRepositoryImpl({required this.remotDataSource});
 
   @override
   Future<Either<Failures, String>> smsOtp({

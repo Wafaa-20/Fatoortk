@@ -20,7 +20,7 @@ class GetButtonAction extends StatelessWidget {
       return CustomBtn(
         text: 'Start',
         onPressed: () {
-          getIt<CacheHelper>()
+          serviceLocator<CacheHelper>()
               .saveData(key: 'isOnboardingVisited', value: true);
           customNavigate(context, "/login");
         },
