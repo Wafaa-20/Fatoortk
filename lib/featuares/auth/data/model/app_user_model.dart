@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class AppUserModel extends AppUser {
   AppUserModel({
-    required super.id,
+    super.id,
     required super.name,
     required super.email,
     required super.phoneNumber,
@@ -24,11 +24,11 @@ class AppUserModel extends AppUser {
   //convert json format -> App user model
   factory AppUserModel.fromJson(Map<String, dynamic> jsonUser) {
     return AppUserModel(
-      id: jsonUser['id'],
-      name: jsonUser['name'],
-      email: jsonUser['email'],
-      phoneNumber: jsonUser['phoneNumber'],
-      smsCode: jsonUser['smsCode'],
+      id: jsonUser['id'] as String,
+      name: jsonUser['name'] as String,
+      email: jsonUser['email'] as String,
+      phoneNumber: jsonUser['phoneNumber'] as String,
+      smsCode: jsonUser['smsCode'] as String,
     );
   }
 

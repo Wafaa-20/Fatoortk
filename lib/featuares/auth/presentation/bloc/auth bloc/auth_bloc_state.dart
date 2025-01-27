@@ -2,42 +2,33 @@ part of 'auth_bloc.dart';
 
 @immutable
 sealed class AuthState {
-  const AuthState();
+  AuthState();
 }
 
 final class AuthInitial extends AuthState {}
 
-final class AuthLoading extends AuthState {}
-
-final class AuthSuccess extends AuthState {
-  final AppUser? user;
-
-  const AuthSuccess(this.user);
-}
-
-final class AuthFailure extends AuthState {
-  final String message;
-  const AuthFailure(this.message);
-}
-
-final class AuthBlocLoggedOut extends AuthState {}
+class AuthLoading extends AuthState {}
 
 class SmsOtpSentState extends AuthState {
   final String verificationId;
 
-  const SmsOtpSentState(this.verificationId);
+  SmsOtpSentState(this.verificationId);
 }
 
-class VerificationIdSentState extends AuthState {
-  final String verificationId;
+class AuthSuccess extends AuthState {
+  final AppUser? user;
 
-  const VerificationIdSentState(this.verificationId);
+  AuthSuccess(this.user);
+}
 
-  List<Object?> get props => [verificationId];
+class AuthFailure extends AuthState {
+  final String message;
+
+  AuthFailure(this.message);
 }
 
 final class CheckBoxUpdatedState extends AuthState {
   final bool termsAndConditionsValue;
 
-  const CheckBoxUpdatedState(this.termsAndConditionsValue);
+  CheckBoxUpdatedState(this.termsAndConditionsValue);
 }

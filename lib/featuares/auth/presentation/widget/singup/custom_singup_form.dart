@@ -33,7 +33,7 @@ class _CustomSingUpFormState extends State<CustomSingUpForm> {
   Widget build(BuildContext context) {
     return BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) {
-        if(state is SmsOtpSentState) {
+        if (state is SmsOtpSentState) {
           customReplacementNavigate(context, '/otp');
         } else if (state is AuthFailure) {
           showToast(state.message);
@@ -78,10 +78,8 @@ class _CustomSingUpFormState extends State<CustomSingUpForm> {
                       if (authBloc.checkBoxValue == true) {
                         if (authBloc.singupFormKey.currentState!.validate()) {
                           authBloc.add(
-                            AuthSingUpEvent(
-                              name: nameController.text,
-                              email: emailController.text,
-                              phoneNumber: phoneNumperController.text,
+                            SendSmsOtpEvent(
+                              phoneNumber: phoneNumperController.text.trim(),
                             ),
                           );
                         }

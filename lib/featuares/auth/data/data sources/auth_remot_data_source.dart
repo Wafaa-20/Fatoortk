@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:fatoortk/core/error/failures.dart';
 import 'package:fatoortk/core/error/server_failure.dart';
 import 'package:fatoortk/featuares/auth/data/model/app_user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -9,7 +8,7 @@ abstract class AuthRemotDataSource {
   Future<String?> smsOtp(String phoneNumber);
 
   Future<AppUserModel?> signUpWithPhoneNumber(
-    String id,
+    String? id,
     String name,
     String email,
     String phoneNumber,
@@ -17,7 +16,7 @@ abstract class AuthRemotDataSource {
   );
 
   Future<AppUserModel?> signInWithPhoneNumber(
-    String phoneNumber,
+    String id,
     String smsCode,
   );
 
@@ -38,12 +37,12 @@ class AuthRemotDataSourceImpl implements AuthRemotDataSource {
       await firebaseAuth.verifyPhoneNumber(
         phoneNumber: phoneNumber,
         timeout: const Duration(seconds: 60),
-        verificationCompleted: (PhoneAuthCredential credential) async {
-          await firebaseAuth.signInWithCredential(credential);
+        verificationCompleted: (credential) async {
           completer.complete('Verification completed');
         },
         verificationFailed: (FirebaseAuthException e) {
-          completer.completeError(Failures('Verification failed ${e.message}'));
+          completer.completeError(
+              ServerFailure('Verification failed: ${e.message}'));
         },
         codeSent: (String verificationId, int? resendToken) async {
           completer.complete(verificationId);
@@ -53,23 +52,27 @@ class AuthRemotDataSourceImpl implements AuthRemotDataSource {
         },
       );
     } catch (e) {
-      completer.completeError(throw ServerFailure(e.toString()));
+      completer.completeError(ServerFailure('Failed to send SMS OTP: $e'));
     }
     return completer.future;
   }
 
   @override
   Future<AppUserModel?> signUpWithPhoneNumber(
-    String id,
+    String? id,
     String name,
     String email,
     String phoneNumber,
     String smsCode,
   ) async {
     try {
-      
+      // final verificationId = await smsOtp(phoneNumber);
+      // if (verificationId == null) {
+      //   throw ServerFailure('Failed to retrieve verification ID');
+      // }
+
       final PhoneAuthCredential credential = PhoneAuthProvider.credential(
-        verificationId: id,
+        verificationId: id!,
         smsCode: smsCode,
       );
       final userCredential =
@@ -92,19 +95,31 @@ class AuthRemotDataSourceImpl implements AuthRemotDataSource {
 
   @override
   Future<AppUserModel?> signInWithPhoneNumber(
-      String phoneNumber, String smsCode) async {
+    String id,
+    String smsCode,
+  ) async {
     try {
-      final verificationId = await smsOtp(phoneNumber);
+      // final verificationId = await smsOtp(phoneNumber);
+      // if (verificationId == null) {
+      //   throw ServerFailure('Failed to retrieve verification ID');
+      // }
+
       final PhoneAuthCredential credential = PhoneAuthProvider.credential(
-          verificationId: verificationId!, smsCode: smsCode);
+        verificationId: id,
+        smsCode: smsCode,
+      );
       final userCredential =
           await firebaseAuth.signInWithCredential(credential);
+
+      if (userCredential.user == null) {
+        throw ServerFailure('User is null!');
+      }
       return AppUserModel(
         id: userCredential.user!.uid,
-        name: userCredential.user?.displayName ?? '',
-        email: userCredential.user?.email ?? '',
-        phoneNumber: phoneNumber,
-        smsCode: '',
+        name: '',
+        email: '',
+        phoneNumber: '',
+        smsCode: smsCode,
       );
     } catch (e) {
       throw ServerFailure(e.toString());

@@ -25,6 +25,19 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         _userSignIn = userSignIn,
         _smsOtp = smsOtp,
         super(AuthInitial()) {
+    //send OTP
+    on<SendSmsOtpEvent>((event, emit) async {
+      emit(AuthLoading());
+      final response = await _smsOtp(SmsOtpParams(
+        phoneNumber: event.phoneNumber,
+      ));
+      response.fold(
+        (failure) => emit(AuthFailure(failure.msg)),
+        (verificationId) => emit(SmsOtpSentState(verificationId!)),
+      );
+    });
+
+    //Sign up
     on<AuthSingUpEvent>((event, emit) async {
       emit(AuthLoading());
       final response = await _userSignUp(UserSignUpParams(
@@ -36,36 +49,20 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       ));
       response.fold(
         (failure) => emit(AuthFailure(failure.msg)),
-        (success) => emit(AuthSuccess(success!)),
-      );
-    });
-
-    on<AuthSingInEvent>((event, emit) async {
-      final response = await _userSignIn(UserSignInParams(
-        phoneNumber: event.phoneNumber,
-        smsCode: event.smsCode!,
-      ));
-      response.fold(
-        (failure) => emit(AuthFailure(failure.msg)),
         (success) => emit(AuthSuccess(success)),
       );
     });
 
-    on<SendSmsOtpEvent>((event, emit) async {
-      final response =
-          await _smsOtp(SmsOtpParams(phoneNumber: event.phoneNumber));
-
+    on<AuthSingInEvent>((event, emit) async {
+      emit(AuthLoading());
+      final response = await _userSignIn(UserSignInParams(
+        id: event.id,
+        phoneNumber: event.phoneNumber,
+        smsCode: event.smsCode,
+      ));
       response.fold(
-        (failure) {
-          emit(AuthFailure(failure.msg));
-        },
-        (verificationId) {
-          if (verificationId == null) {
-            emit(const AuthFailure('Failed to send OTP. Please try again.'));
-          } else {
-            emit(SmsOtpSentState(verificationId));
-          }
-        },
+        (failure) => emit(AuthFailure(failure.msg)),
+        (success) => emit(AuthSuccess(success)),
       );
     });
 
@@ -75,70 +72,3 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     });
   }
 }
-
-
-//         super(AuthInitial()) {
-//     // حدث تسجيل الحساب
-//     on<AuthSingUp>(_handleSignUpEvent);
-
-//     // حدث تسجيل الدخول
-//     on<AuthSingIn>(_handleSignInEvent);
-
-//     // حدث إرسال كود OTP
-//     on<CodeSentEvent>(_handleCodeSentEvent);
-
-//     // حدث تحديث قيمة Checkbox
-//     on<UpdateTermsAndConditionsCheckboxEvent>(_handleCheckboxEvent);
-//   }
-
-//   // معالجة حدث تسجيل الحساب
-//   Future<void> _handleSignUpEvent(
-//       AuthSingUp event, Emitter<AuthState> emit) async {
-//     emit(AuthLoading());
-//     final response = await _userSignUp(UserSignUpParams(
-//       id: event.id ?? '', // تأكد أن القيمة ليست null
-//       name: event.name,
-//       email: event.email,
-//       phoneNumber: event.phoneNumber,
-//       smsCode: event.smsCode ?? '', // تأكد أن القيمة ليست null
-//     ));
-//     response.fold(
-//       (failure) => emit(AuthFailure(failure.msg)),
-//       (success) => emit(AuthSuccess(success)),
-//     );
-//   }
-
-//   // معالجة حدث تسجيل الدخول
-//   Future<void> _handleSignInEvent(
-//       AuthSingIn event, Emitter<AuthState> emit) async {
-//     emit(AuthLoading());
-//     final response = await _userSignIn(UserSignInParams(
-//       phoneNumber: event.phoneNumber,
-//       smsCode: event.smsCode ?? '', // تأكد أن القيمة ليست null
-//     ));
-//     response.fold(
-//       (failure) => emit(AuthFailure(failure.msg)),
-//       (success) => emit(AuthSuccess(success)),
-//     );
-//   }
-
-//   // معالجة حدث إرسال كود OTP
-//   Future<void> _handleCodeSentEvent(
-//       CodeSentEvent event, Emitter<AuthState> emit) async {
-//     emit(AuthLoading());
-//     final response = await _smsOtp(SmsOtpParams(
-//       phoneNumber: event.smsCode,
-//     ));
-//     response.fold(
-//       (failure) => emit(AuthFailure(failure.msg)),
-//       (verificationId) => emit(VerificationIdSentState(verificationId!)),
-//     );
-//   }
-
-//   // معالجة حدث Checkbox
-//   void _handleCheckboxEvent(
-//       UpdateTermsAndConditionsCheckboxEvent event, Emitter<AuthState> emit) {
-//     checkBoxValue = event.newValue;
-//     emit(CheckBoxUpdatedState(checkBoxValue));
-//   }
-// }

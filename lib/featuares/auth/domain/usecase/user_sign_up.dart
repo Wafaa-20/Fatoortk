@@ -10,7 +10,7 @@ class UserSignUp implements Usecase<AppUser, UserSignUpParams> {
 
   @override
   Future<Either<Failures, AppUser?>> call(UserSignUpParams params) async {
-    return await authRepository.singUpWithPhoneNumber(
+    return await authRepository.signUpWithPhoneNumber(
       id: params.id,
       name: params.name,
       email: params.email,
@@ -21,17 +21,17 @@ class UserSignUp implements Usecase<AppUser, UserSignUpParams> {
 }
 
 class UserSignUpParams {
-  final String id;
+  final String? id;
   final String name;
   final String email;
   final String phoneNumber;
   final String smsCode;
 
   UserSignUpParams({
+    this.id,
     required this.name,
     required this.email,
     required this.phoneNumber,
-    required this.id,
     required this.smsCode,
   });
 }

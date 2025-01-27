@@ -2,6 +2,7 @@ import 'package:fatoortk/core/error/failures.dart';
 import 'package:fatoortk/core/error/server_failure.dart';
 import 'package:fatoortk/featuares/auth/data/data%20sources/auth_remot_data_source.dart';
 import 'package:fatoortk/featuares/auth/data/model/app_user_model.dart';
+import 'package:fatoortk/featuares/auth/domain/entities/app_user.dart';
 import 'package:fatoortk/featuares/auth/domain/repository/auth_repository.dart';
 import 'package:fpdart/fpdart.dart';
 
@@ -24,7 +25,6 @@ class AuthRepositoryImpl implements AuthRepository {
     }
   }
 
-  @override
   Future<Either<Failures, AppUserModel>> singUpWithPhoneNumber(
       {required String id,
       required String name,
@@ -47,12 +47,13 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<Either<Failures, AppUserModel>> signInWithPhoneNumber({
+    required String id,
     required String phoneNumber,
     required String smsCode,
   }) async {
     try {
       final user = await remotDataSource.signInWithPhoneNumber(
-        phoneNumber,
+        id,
         smsCode,
       );
       return right(user!);
@@ -79,5 +80,15 @@ class AuthRepositoryImpl implements AuthRepository {
     } on ServerFailure catch (e) {
       return left(Failures(e.message));
     }
+  }
+
+  @override
+  Future<Either<Failures, AppUser?>> signUpWithPhoneNumber(
+      {String? id,
+      required String name,
+      required String email,
+      required String phoneNumber,
+      required String smsCode}) {
+    throw UnimplementedError();
   }
 }

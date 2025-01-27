@@ -11,15 +11,20 @@ class UserSignIn implements Usecase<AppUser, UserSignInParams> {
   @override
   Future<Either<Failures, AppUser?>> call(UserSignInParams params) async {
     return await authRepository.signInWithPhoneNumber(
-        phoneNumber: params.phoneNumber, smsCode: params.smsCode);
+      id: params.id,
+      phoneNumber: params.phoneNumber,
+      smsCode: params.smsCode,
+    );
   }
 }
 
 class UserSignInParams {
+  final String id;
   final String phoneNumber;
   final String smsCode;
 
   UserSignInParams({
+    required this.id,
     required this.phoneNumber,
     required this.smsCode,
   });

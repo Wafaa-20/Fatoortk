@@ -19,7 +19,7 @@ class _CustomLoginFormState extends State<CustomLoginForm> {
   Widget build(BuildContext context) {
     return BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) {
-        if (state is VerificationIdSentState) {
+        if (state is SmsOtpSentState) {
           showToast(
               'Verification code has been sent! You will be redirected to the verification page');
           customNavigate(context, '/otp');
@@ -53,8 +53,9 @@ class _CustomLoginFormState extends State<CustomLoginForm> {
                       if (authBloc.loginFormKey.currentState!.validate()) {
                         authBloc.add(
                           AuthSingInEvent(
-                            phoneNumber: phoneNumperController.text.trim(),
-                          ),
+                              phoneNumber: phoneNumperController.text.trim(),
+                              id: '',
+                              smsCode: ''),
                         );
                       } else {
                         showToast('Please enter a valid phone number');

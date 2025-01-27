@@ -7,14 +7,15 @@ abstract class AuthRepository {
     required String phoneNumber,
   });
 
-  Future<Either<Failures, AppUser?>> singUpWithPhoneNumber(
-      {required String id,
+  Future<Either<Failures, AppUser?>> signUpWithPhoneNumber(
+      {String? id,
       required String name,
       required String email,
       required String phoneNumber,
       required String smsCode});
 
   Future<Either<Failures, AppUser?>> signInWithPhoneNumber({
+    required String id,
     required String phoneNumber,
     required String smsCode,
   });
