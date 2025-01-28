@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class AppUserModel extends AppUser {
   AppUserModel({
-    super.id,
+    required super.id,
     required super.name,
     required super.email,
     required super.phoneNumber,

@@ -4,9 +4,10 @@ part of 'auth_bloc.dart';
 sealed class AuthEvent {}
 
 class SendSmsOtpEvent extends AuthEvent {
+  final String? name;
+  final String? email;
   final String phoneNumber;
-
-  SendSmsOtpEvent({required this.phoneNumber});
+  SendSmsOtpEvent({this.name, this.email, required this.phoneNumber});
 }
 
 final class AuthSingUpEvent extends AuthEvent {
@@ -14,14 +15,14 @@ final class AuthSingUpEvent extends AuthEvent {
   final String name;
   final String email;
   final String phoneNumber;
-  final String? smsCode;
+  final String smsCode;
 
   AuthSingUpEvent({
     this.id,
     required this.name,
     required this.email,
     required this.phoneNumber,
-    this.smsCode,
+    required this.smsCode,
   });
 }
 
@@ -37,4 +38,9 @@ final class AuthSingInEvent extends AuthEvent {
 final class UpdateTermsAndConditionsCheckboxEvent extends AuthEvent {
   final bool newValue;
   UpdateTermsAndConditionsCheckboxEvent(this.newValue);
+}
+
+final class ValidateOtpEvent extends AuthEvent {
+  final String otp;
+  ValidateOtpEvent({required this.otp});
 }

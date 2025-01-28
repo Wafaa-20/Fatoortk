@@ -13,6 +13,8 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<Either<Failures, String>> smsOtp({
+    String? name,
+    String? email,
     required String phoneNumber,
   }) async {
     try {
@@ -26,7 +28,8 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   Future<Either<Failures, AppUserModel>> singUpWithPhoneNumber(
-      {required String id,
+      {
+      required String id,
       required String name,
       required String email,
       required String phoneNumber,

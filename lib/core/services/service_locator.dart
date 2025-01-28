@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fatoortk/core/database/cache/cache_helper.dart';
 import 'package:fatoortk/featuares/auth/data/data%20sources/auth_remot_data_source.dart';
 import 'package:fatoortk/featuares/auth/data/repository/auth_repository_iml.dart';
@@ -14,12 +15,14 @@ final serviceLocator = GetIt.instance;
 Future<void> initDependencies() async {
   _initAuth();
   serviceLocator.registerLazySingleton(() => FirebaseAuth.instance);
+  serviceLocator.registerLazySingleton(() => FirebaseFirestore.instance);
 }
 
 void _initAuth() {
   serviceLocator.registerFactory<AuthRemotDataSource>(
     () => AuthRemotDataSourceImpl(
       firebaseAuth: serviceLocator(),
+      firebaseFirestore: serviceLocator(),
     ),
   );
 
@@ -42,7 +45,7 @@ void _initAuth() {
   serviceLocator.registerLazySingleton(() => AuthBloc(
         userSignUp: serviceLocator(),
         userSignIn: serviceLocator(),
-         smsOtp: serviceLocator(),
+        smsOtp: serviceLocator(),
       ));
 }
 

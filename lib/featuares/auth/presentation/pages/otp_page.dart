@@ -1,6 +1,6 @@
 import 'package:fatoortk/core/text/app_text.dart';
 import 'package:fatoortk/featuares/auth/presentation/widget/otp/otp_widget.dart';
-import 'package:fatoortk/featuares/auth/presentation/widget/welcome_text_widget.dart';
+import 'package:fatoortk/featuares/auth/presentation/widget/text_widget.dart';
 import 'package:flutter/material.dart';
 
 class OtpPage extends StatelessWidget {
@@ -23,7 +23,10 @@ class OtpPage extends StatelessWidget {
                       text2: AppText.digitCode,
                     ))),
             SliverToBoxAdapter(child: SizedBox(height: 40)),
-            SliverToBoxAdapter(child: OtpWidget()),
+            SliverToBoxAdapter(
+                child: OtpWidget(
+              verificationId: '',
+            )),
           ],
         ),
       )),

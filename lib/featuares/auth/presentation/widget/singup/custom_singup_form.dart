@@ -79,6 +79,8 @@ class _CustomSingUpFormState extends State<CustomSingUpForm> {
                         if (authBloc.singupFormKey.currentState!.validate()) {
                           authBloc.add(
                             SendSmsOtpEvent(
+                              name: nameController.text.trim(),
+                              email: emailController.text.trim(),
                               phoneNumber: phoneNumperController.text.trim(),
                             ),
                           );

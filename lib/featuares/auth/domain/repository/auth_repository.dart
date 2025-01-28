@@ -4,6 +4,8 @@ import 'package:fpdart/fpdart.dart';
 
 abstract class AuthRepository {
   Future<Either<Failures, String?>> smsOtp({
+    String? name,
+    String? email,
     required String phoneNumber,
   });
 

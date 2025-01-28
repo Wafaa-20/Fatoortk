@@ -1,4 +1,3 @@
-import 'package:fatoortk/featuares/auth/domain/entities/app_user.dart';
 import 'package:fatoortk/featuares/auth/domain/usecase/sms_otp.dart';
 import 'package:fatoortk/featuares/auth/domain/usecase/user_sign_in.dart';
 import 'package:fatoortk/featuares/auth/domain/usecase/user_sign_up.dart';
@@ -29,6 +28,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<SendSmsOtpEvent>((event, emit) async {
       emit(AuthLoading());
       final response = await _smsOtp(SmsOtpParams(
+        name: event.name,
+        email: event.email,
         phoneNumber: event.phoneNumber,
       ));
       response.fold(
@@ -41,15 +42,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<AuthSingUpEvent>((event, emit) async {
       emit(AuthLoading());
       final response = await _userSignUp(UserSignUpParams(
-        id: event.id!,
+        id: event.id,
         name: event.name,
         email: event.email,
         phoneNumber: event.phoneNumber,
-        smsCode: event.smsCode!,
+        smsCode: event.smsCode,
       ));
       response.fold(
         (failure) => emit(AuthFailure(failure.msg)),
-        (success) => emit(AuthSuccess(success)),
+        (success) => emit(const AuthSuccess('Registration successful!')),
       );
     });
 
@@ -62,13 +63,23 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       ));
       response.fold(
         (failure) => emit(AuthFailure(failure.msg)),
-        (success) => emit(AuthSuccess(success)),
+        (success) => emit(const AuthSuccess('Login successful!')),
       );
     });
 
     on<UpdateTermsAndConditionsCheckboxEvent>((event, emit) {
       checkBoxValue = event.newValue;
       emit(CheckBoxUpdatedState(checkBoxValue));
+    });
+
+    on<ValidateOtpEvent>((event, emit) {
+      if (event.otp.length < 6) {
+        emit(const AuthFailure('OTP must be 6 digits'));
+      } else if (event.otp.isEmpty) {
+        emit(const AuthFailure('OTP cannot be empty'));
+      } else {
+        emit(const AuthSuccess('OTP is valid'));
+      }
     });
   }
 }

@@ -2,7 +2,7 @@ import 'package:fatoortk/core/functions/navigation.dart';
 import 'package:fatoortk/core/text/app_text.dart';
 import 'package:fatoortk/featuares/auth/presentation/widget/account_widget.dart';
 import 'package:fatoortk/featuares/auth/presentation/widget/singup/custom_singup_form.dart';
-import 'package:fatoortk/featuares/auth/presentation/widget/welcome_text_widget.dart';
+import 'package:fatoortk/featuares/auth/presentation/widget/text_widget.dart';
 import 'package:flutter/material.dart';
 
 class SingupPage extends StatelessWidget {

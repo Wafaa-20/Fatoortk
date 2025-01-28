@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fatoortk/core/error/server_failure.dart';
 import 'package:fatoortk/featuares/auth/data/model/app_user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -8,7 +9,7 @@ abstract class AuthRemotDataSource {
   Future<String?> smsOtp(String phoneNumber);
 
   Future<AppUserModel?> signUpWithPhoneNumber(
-    String? id,
+    String id,
     String name,
     String email,
     String phoneNumber,
@@ -27,8 +28,10 @@ abstract class AuthRemotDataSource {
 
 class AuthRemotDataSourceImpl implements AuthRemotDataSource {
   final FirebaseAuth firebaseAuth;
+  final FirebaseFirestore firebaseFirestore;
 
-  AuthRemotDataSourceImpl({required this.firebaseAuth});
+  AuthRemotDataSourceImpl(
+      {required this.firebaseAuth, required this.firebaseFirestore});
 
   @override
   Future<String?> smsOtp(String phoneNumber) async {
@@ -59,35 +62,40 @@ class AuthRemotDataSourceImpl implements AuthRemotDataSource {
 
   @override
   Future<AppUserModel?> signUpWithPhoneNumber(
-    String? id,
+    String id,
     String name,
     String email,
     String phoneNumber,
     String smsCode,
   ) async {
     try {
-      // final verificationId = await smsOtp(phoneNumber);
-      // if (verificationId == null) {
-      //   throw ServerFailure('Failed to retrieve verification ID');
-      // }
-
       final PhoneAuthCredential credential = PhoneAuthProvider.credential(
-        verificationId: id!,
+        verificationId: id,
         smsCode: smsCode,
       );
       final userCredential =
           await firebaseAuth.signInWithCredential(credential);
+      final userId = userCredential.user?.uid;
 
-      if (userCredential.user == null) {
+      if (userId == null) {
         throw ServerFailure('User is null!');
-      }
-      return AppUserModel(
-        id: userCredential.user!.uid,
+      } 
+
+      AppUserModel user = AppUserModel(
+        id: userId,
         name: name,
         email: email,
-        phoneNumber: phoneNumber,
+        phoneNumber:phoneNumber ,
         smsCode: smsCode,
       );
+
+      //add user to firebase
+      await firebaseFirestore
+          .collection('users')
+          .doc(user.id)
+          .set(user.toJson());
+
+      return user;
     } catch (e) {
       throw ServerFailure(e.toString());
     }

@@ -9,11 +9,27 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pinput/pinput.dart';
 
-class OtpWidget extends StatelessWidget {
-  const OtpWidget({super.key});
+class OtpWidget extends StatefulWidget {
+  const OtpWidget({super.key, required this.verificationId});
+
+  final String verificationId;
+
+  @override
+  State<OtpWidget> createState() => _OtpWidgetState();
+}
+
+class _OtpWidgetState extends State<OtpWidget> {
+  final otpController = TextEditingController();
+
+  @override
+  void dispose() {
+    otpController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
+    final AuthBloc authBloc = context.read<AuthBloc>();
     return BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is AuthSuccess) {
@@ -32,7 +48,11 @@ class OtpWidget extends StatelessWidget {
               padding: const EdgeInsets.only(
                   top: 16, bottom: 16, left: 10, right: 10),
               child: Pinput(
+                  controller: otpController,
                   length: 6,
+                  onCompleted: (otp) {
+                    authBloc.add(ValidateOtpEvent(otp: otp));
+                  },
                   defaultPinTheme: LightMode.defaultPinTheme,
                   focusedPinTheme: LightMode.focusedPinTheme),
             ),
@@ -42,7 +62,20 @@ class OtpWidget extends StatelessWidget {
             CustomBtn(
               text: AppText.continues,
               onPressed: () {
-              
+                final otpCode = otpController.text.trim();
+
+                if (otpCode.isNotEmpty && otpCode.length == 6) {
+                  authBloc.add(
+                    AuthSingUpEvent(
+                      name: '',
+                      email: '',
+                      phoneNumber: widget.verificationId,
+                      smsCode: otpCode,
+                    ),
+                  );
+                } else {
+                  showToast('Please enter a valid OTP');
+                }
               },
             )
           ],

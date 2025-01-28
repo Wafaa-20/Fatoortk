@@ -9,13 +9,17 @@ class SmsOtp implements Usecase<String, SmsOtpParams> {
   @override
   Future<Either<Failures, String?>> call(params) async {
     return await authRepository.smsOtp(
+      name: params.name,
+      email: params.email,
       phoneNumber: params.phoneNumber,
     );
   }
 }
 
 class SmsOtpParams {
+  final String? name;
+  final String? email;
   final String phoneNumber;
 
-  SmsOtpParams({required this.phoneNumber});
+  SmsOtpParams({this.name, this.email, required this.phoneNumber});
 }

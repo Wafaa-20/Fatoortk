@@ -15,6 +15,14 @@ class CustomLoginForm extends StatefulWidget {
 }
 
 class _CustomLoginFormState extends State<CustomLoginForm> {
+  final phoneNumperController = TextEditingController();
+
+  @override
+  void dispose() {
+    phoneNumperController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AuthBloc, AuthState>(
@@ -29,12 +37,6 @@ class _CustomLoginFormState extends State<CustomLoginForm> {
       },
       builder: (context, state) {
         AuthBloc authBloc = context.read<AuthBloc>();
-        final phoneNumperController = TextEditingController();
-
-        void dispose() {
-          phoneNumperController.dispose();
-          super.dispose();
-        }
 
         return Form(
           key: authBloc.loginFormKey,
