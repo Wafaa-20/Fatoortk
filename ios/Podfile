@@ -9,8 +9,7 @@ target 'Runner' do
   use_frameworks!
   use_modular_headers!
 
-  flutter_ios_podfile_setup
+  require File.expand_path('../Flutter/ephemeral/flutter_tools', __FILE__) # ✅ تأكد من هذا السطر
 
   flutter_install_all_ios_pods(File.dirname(File.realpath(__FILE__)))
-
 end
