@@ -1,15 +1,8 @@
-platform :ios, '13.0'
-
-begin
-  require File.expand_path('../Flutter/ephemeral/flutter_root', __FILE__)
-rescue LoadError
-end
+platform :ios, '12.0'
+flutter_ios_podfile_setup
 
 target 'Runner' do
   use_frameworks!
   use_modular_headers!
-
-  require File.expand_path('../Flutter/ephemeral/flutter_tools', __FILE__) # ✅ تأكد من هذا السطر
-
-  flutter_install_all_ios_pods(File.dirname(File.realpath(__FILE__)))
+  flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
 end
