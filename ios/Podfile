@@ -1,15 +1,33 @@
-# Uncomment the next line to define a global platform for your project
-platform :ios, '9.0'
+platform :ios, '12.0'
+
+ # تعطيل مسارات الإدخال والإخراج
+ install! 'cocoapods', :disable_input_output_paths => true
+ require File.expand_path('./podhelper.rb', __dir__)
+
+
+
+
+
+
+ 
+
 
 target 'Runner' do
-  # Comment the next line if you don't want to use dynamic frameworks
   use_frameworks!
+  use_modular_headers!
 
-  # Pods for Runner
+  flutter_root = File.expand_path('..', __dir__)
 
-  target 'RunnerTests' do
-    inherit! :search_paths
-    # Pods for testing
-  end
+  # تضمين مكتبة Flutter يدويًا
+  pod 'Flutter', :path => "#{flutter_root}/flutter/bin/cache/artifacts/engine/ios"
 
+  # إضافة جميع الـ Pods التي تحتاجها
+  pod 'Firebase/Core'
+  pod 'Firebase/Auth'
+  pod 'Firebase/Firestore'
+
+ 
+
+  # يجب أن يكون `flutter_install_all_ios_pods` في النهاية
+  flutter_install_all_ios_pods(flutter_root)
 end
