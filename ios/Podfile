@@ -1,33 +1,19 @@
 platform :ios, '12.0'
 
- # تعطيل مسارات الإدخال والإخراج
- install! 'cocoapods', :disable_input_output_paths => true
- require File.expand_path('./podhelper.rb', __dir__)
+install! 'cocoapods', :disable_input_output_paths => true
 
-
-
-
-
-
- 
+# تأكد أن المسار صحيح حسب موقع مجلد flutter لديك
+require File.expand_path(File.join("C:/flutter/packages/flutter_tools/bin/podhelper.rb"), __dir__)
 
 
 target 'Runner' do
   use_frameworks!
   use_modular_headers!
 
-  flutter_root = File.expand_path('..', __dir__)
+  flutter_install_all_ios_pods(File.dirname(File.realpath(__FILE__)))
 
-  # تضمين مكتبة Flutter يدويًا
-  pod 'Flutter', :path => "#{flutter_root}/flutter/bin/cache/artifacts/engine/ios"
+  # Firebase Pods
+  pod 'Firebase/Core', '~> 8.11.0'
+  pod 'Firebase/Auth', '~> 8.11.0'
 
-  # إضافة جميع الـ Pods التي تحتاجها
-  pod 'Firebase/Core'
-  pod 'Firebase/Auth'
-  pod 'Firebase/Firestore'
-
- 
-
-  # يجب أن يكون `flutter_install_all_ios_pods` في النهاية
-  flutter_install_all_ios_pods(flutter_root)
 end

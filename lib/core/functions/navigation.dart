@@ -6,8 +6,8 @@ void customNavigate(context, String path) {
   GoRouter.of(context).push(path);
 }
 
-void customReplacementNavigate(context, String path) {
-  GoRouter.of(context).pushReplacement(path);
+void customReplacementNavigate(context, String path, {Object? extra}) {
+  GoRouter.of(context).pushReplacement(path, extra: extra);
 }
 
 void checkStateChanges() {

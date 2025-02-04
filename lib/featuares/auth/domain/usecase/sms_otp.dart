@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import 'package:fatoortk/core/error/failures.dart';
 import 'package:fatoortk/core/usecase/usecase.dart';
 import 'package:fatoortk/featuares/auth/domain/repository/auth_repository.dart';
@@ -9,17 +10,16 @@ class SmsOtp implements Usecase<String, SmsOtpParams> {
   @override
   Future<Either<Failures, String?>> call(params) async {
     return await authRepository.smsOtp(
-      name: params.name,
-      email: params.email,
       phoneNumber: params.phoneNumber,
     );
   }
 }
 
-class SmsOtpParams {
-  final String? name;
-  final String? email;
+class SmsOtpParams extends Equatable {
   final String phoneNumber;
 
-  SmsOtpParams({this.name, this.email, required this.phoneNumber});
+  const SmsOtpParams({required this.phoneNumber});
+
+  @override
+  List<Object> get props => [phoneNumber];
 }

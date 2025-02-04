@@ -3,7 +3,9 @@ import 'package:fatoortk/core/functions/navigation.dart';
 import 'package:fatoortk/core/text/app_text.dart';
 import 'package:fatoortk/core/theme/app_color.dart';
 import 'package:fatoortk/core/widgets/custom_btn.dart';
+import 'package:fatoortk/core/widgets/loader.dart';
 import 'package:fatoortk/featuares/auth/presentation/bloc/auth%20bloc/auth_bloc.dart';
+import 'package:fatoortk/featuares/auth/presentation/widget/country_code.dart';
 import 'package:fatoortk/featuares/auth/presentation/widget/custom_text_form_field.dart';
 import 'package:fatoortk/featuares/auth/presentation/widget/singup/Terms%20And%20Conditions/terms_and_conditions.dart';
 import 'package:flutter/material.dart';
@@ -19,13 +21,14 @@ class CustomSingUpForm extends StatefulWidget {
 class _CustomSingUpFormState extends State<CustomSingUpForm> {
   final nameController = TextEditingController();
   final emailController = TextEditingController();
-  final phoneNumperController = TextEditingController();
+  final phoneNumberController = TextEditingController();
+  bool isUserExist = false;
 
   @override
   void dispose() {
     nameController.dispose();
     emailController.dispose();
-    phoneNumperController.dispose();
+    phoneNumberController.dispose();
     super.dispose();
   }
 
@@ -33,14 +36,23 @@ class _CustomSingUpFormState extends State<CustomSingUpForm> {
   Widget build(BuildContext context) {
     return BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) {
+        if (state is UserExistState) {
+          showToast(
+              'This user already exists. Please login or enter another phone number.');
+        }
         if (state is SmsOtpSentState) {
-          customReplacementNavigate(context, '/otp');
+          customReplacementNavigate(context, '/otp', extra: {
+            'verificationId': state.verificationId,
+            'isSingUp': true,
+          });
         } else if (state is AuthFailure) {
           showToast(state.message);
         }
       },
       builder: (context, state) {
         AuthBloc authBloc = context.read<AuthBloc>();
+        String countryCode = authBloc.countryCode;
+
         return Form(
           key: authBloc.singupFormKey,
           child: Column(children: [
@@ -59,16 +71,24 @@ class _CustomSingUpFormState extends State<CustomSingUpForm> {
             const SizedBox(height: 16),
             CustomTextFormField(
               labelText: AppText.phoneNumber,
-              // prefixIcon: const CountryCode(),
-              controller: phoneNumperController,
+              prefixIcon: const CountryCode(),
+              controller: phoneNumberController,
+              onChanged: (value) {
+                if (value.length == 10) {
+                  authBloc.add(
+                    CheckUserEvent(
+                      field: 'phoneNumber',
+                      value: "$countryCode$value",
+                    ),
+                  );
+                }
+              },
             ),
             const SizedBox(height: 24),
             const TermsAndConditions(),
             const SizedBox(height: 24),
             state is AuthLoading
-                ? const CircularProgressIndicator(
-                    color: AppColor.button,
-                  )
+                ? const Loader()
                 : CustomBtn(
                     text: AppText.continues,
                     color: authBloc.checkBoxValue == false
@@ -77,11 +97,18 @@ class _CustomSingUpFormState extends State<CustomSingUpForm> {
                     onPressed: () {
                       if (authBloc.checkBoxValue == true) {
                         if (authBloc.singupFormKey.currentState!.validate()) {
+                          String phoneNumber =
+                              phoneNumberController.text.trim();
                           authBloc.add(
-                            SendSmsOtpEvent(
+                            CacheUserDataEvent(
                               name: nameController.text.trim(),
                               email: emailController.text.trim(),
-                              phoneNumber: phoneNumperController.text.trim(),
+                              phoneNumber: phoneNumber,
+                            ),
+                          );
+                          authBloc.add(
+                            SendSmsOtpEvent(
+                              phoneNumber: "$countryCode$phoneNumber",
                             ),
                           );
                         }

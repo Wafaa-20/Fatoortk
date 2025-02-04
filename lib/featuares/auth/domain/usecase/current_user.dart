@@ -10,8 +10,14 @@ class CurrentUser implements Usecase<AppUser, CurrentUserParams> {
 
   @override
   Future<Either<Failures, AppUser?>> call(CurrentUserParams params) async {
-    return await authRepository.getCurrentUser();
+    return await authRepository.getCurrentUser(
+        field: params.field, value: params.value);
   }
 }
 
-class CurrentUserParams {}
+class CurrentUserParams {
+  final String field;
+  final String value;
+
+  CurrentUserParams({required this.field, required this.value});
+}

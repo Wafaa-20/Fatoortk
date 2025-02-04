@@ -13,8 +13,6 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<Either<Failures, String>> smsOtp({
-    String? name,
-    String? email,
     required String phoneNumber,
   }) async {
     try {
@@ -27,41 +25,71 @@ class AuthRepositoryImpl implements AuthRepository {
     }
   }
 
-  Future<Either<Failures, AppUserModel>> singUpWithPhoneNumber(
-      {
-      required String id,
-      required String name,
-      required String email,
-      required String phoneNumber,
-      required String smsCode}) async {
+  @override
+  Future<Either<Failures, bool>> verifySmsOtp({
+    required String verificationId,
+    required String smsCode,
+  }) async {
     try {
-      final userId = await remotDataSource.signUpWithPhoneNumber(
-        id,
-        name,
-        email,
-        phoneNumber,
-        smsCode,
-      );
-      return right(userId!);
+      final isVerified =
+          await remotDataSource.verifySmsOtp(verificationId, smsCode);
+      return right(isVerified);
     } on ServerFailure catch (e) {
       return left(Failures(e.message));
     }
   }
 
   @override
-  Future<Either<Failures, AppUserModel>> signInWithPhoneNumber({
-    required String id,
+  Future<Either<Failures, AppUser>> signUpWithPhoneNumber({
+    required String verificationId,
+    required String name,
+    required String email,
+    required String phoneNumber,
+    required String smsCode,
+  }) async {
+    try {
+      final userId = await remotDataSource.signUpWithPhoneNumber(
+        verificationId,
+        name,
+        email,
+        phoneNumber,
+        smsCode,
+      );
+      return Right(userId!);
+    } on ServerFailure catch (e) {
+      return Left(Failures(e.message));
+    }
+  }
+
+  @override
+  Future<Either<Failures, AppUserModel?>> signInWithPhoneNumber({
+    required String verificationId,
     required String phoneNumber,
     required String smsCode,
   }) async {
     try {
       final user = await remotDataSource.signInWithPhoneNumber(
-        id,
+        verificationId,
+        phoneNumber,
         smsCode,
       );
-      return right(user!);
+      return right(user);
     } on ServerFailure catch (e) {
       return left(Failures(e.message));
+    }
+  }
+
+  @override
+  Future<Either<Failures, AppUserModel>> getCurrentUser(
+      {required String field, required String value}) async {
+    try {
+      final user = await remotDataSource.getCurrentUser(
+        field,
+        value,
+      );
+      return Right(user!);
+    } on ServerFailure catch (e) {
+      return Left(Failures(e.message));
     }
   }
 
@@ -73,25 +101,5 @@ class AuthRepositoryImpl implements AuthRepository {
     } on ServerFailure catch (e) {
       return left(Failures(e.message));
     }
-  }
-
-  @override
-  Future<Either<Failures, AppUserModel>> getCurrentUser() async {
-    try {
-      final user = await remotDataSource.getCurrentUser();
-      return right(user!);
-    } on ServerFailure catch (e) {
-      return left(Failures(e.message));
-    }
-  }
-
-  @override
-  Future<Either<Failures, AppUser?>> signUpWithPhoneNumber(
-      {String? id,
-      required String name,
-      required String email,
-      required String phoneNumber,
-      required String smsCode}) {
-    throw UnimplementedError();
   }
 }

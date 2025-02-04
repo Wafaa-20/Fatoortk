@@ -23,8 +23,8 @@ abstract class AppText {
   static const String member = 'Not a member?';
   static const String forgot = 'Or continue with';
 
-  //Sing up Text
-  static const String singUp = 'Sing Up';
+  //Sign up Text
+  static const String signUp = 'Sign Up';
   static const String createAccount = 'Create an account to get started ';
   static const String name = 'Name';
   static const String hintName = 'name';

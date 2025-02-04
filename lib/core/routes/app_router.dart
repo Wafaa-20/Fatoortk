@@ -1,6 +1,6 @@
 import 'package:fatoortk/featuares/auth/presentation/pages/login_page.dart';
 import 'package:fatoortk/featuares/auth/presentation/pages/otp_page.dart';
-import 'package:fatoortk/featuares/auth/presentation/pages/singup_page.dart';
+import 'package:fatoortk/featuares/auth/presentation/pages/signup_page.dart';
 import 'package:fatoortk/featuares/home/presentation/pages/home_page.dart';
 import 'package:fatoortk/featuares/onboarding/presentation/pages/onboarding_screen.dart';
 import 'package:fatoortk/featuares/splash/presentation/page/splash_screen.dart';

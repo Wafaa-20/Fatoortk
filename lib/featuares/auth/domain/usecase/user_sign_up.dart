@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import 'package:fatoortk/core/error/failures.dart';
 import 'package:fatoortk/core/usecase/usecase.dart';
 import 'package:fatoortk/featuares/auth/domain/entities/app_user.dart';
@@ -11,7 +12,7 @@ class UserSignUp implements Usecase<AppUser, UserSignUpParams> {
   @override
   Future<Either<Failures, AppUser?>> call(UserSignUpParams params) async {
     return await authRepository.signUpWithPhoneNumber(
-      id: params.id,
+      verificationId: params.verificationId,
       name: params.name,
       email: params.email,
       phoneNumber: params.phoneNumber,
@@ -20,18 +21,21 @@ class UserSignUp implements Usecase<AppUser, UserSignUpParams> {
   }
 }
 
-class UserSignUpParams {
-  final String? id;
+class UserSignUpParams extends Equatable {
+  final String verificationId;
   final String name;
   final String email;
   final String phoneNumber;
   final String smsCode;
 
-  UserSignUpParams({
-    this.id,
+  const UserSignUpParams({
+    required this.verificationId,
     required this.name,
     required this.email,
     required this.phoneNumber,
     required this.smsCode,
   });
+
+  @override
+  List<Object> get props => [verificationId, name, email, phoneNumber, smsCode];
 }

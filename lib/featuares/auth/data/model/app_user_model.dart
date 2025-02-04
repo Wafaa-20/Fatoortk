@@ -3,43 +3,52 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class AppUserModel extends AppUser {
   AppUserModel({
-    required super.id,
+    required super.uId,
     required super.name,
     required super.email,
     required super.phoneNumber,
-    required super.smsCode,
   });
 
   //convert App user model to -> json format
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
+      'id': uId,
       'name': name,
       'email': email,
       'phoneNumber': phoneNumber,
-      'smsCode': smsCode,
     };
   }
 
   //convert json format -> App user model
   factory AppUserModel.fromJson(Map<String, dynamic> jsonUser) {
     return AppUserModel(
-      id: jsonUser['id'] as String,
+      uId: jsonUser['id'] as String,
       name: jsonUser['name'] as String,
       email: jsonUser['email'] as String,
       phoneNumber: jsonUser['phoneNumber'] as String,
-      smsCode: jsonUser['smsCode'] as String,
     );
   }
 
   //convert firebase user ->  App user model
   factory AppUserModel.fromFirebaseUser(User user) {
     return AppUserModel(
-      id: user.uid,
+      uId: user.uid,
       name: user.displayName ?? '',
       email: user.email ?? '',
       phoneNumber: user.phoneNumber ?? '',
-      smsCode: '',
+    );
+  }
+  AppUserModel copyWith({
+    String? uId,
+    String? name,
+    String? email,
+    String? phoneNumber,
+  }) {
+    return AppUserModel(
+      uId: uId ?? this.uId,
+      name: name ?? this.name,
+      email: email ?? this.email,
+      phoneNumber: phoneNumber ?? this.phoneNumber,
     );
   }
 }

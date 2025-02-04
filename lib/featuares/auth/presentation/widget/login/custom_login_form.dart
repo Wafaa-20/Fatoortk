@@ -30,7 +30,10 @@ class _CustomLoginFormState extends State<CustomLoginForm> {
         if (state is SmsOtpSentState) {
           showToast(
               'Verification code has been sent! You will be redirected to the verification page');
-          customNavigate(context, '/otp');
+          customReplacementNavigate(context, '/otp', extra: {
+            'verificationId': state.verificationId,
+            'isSingUp': false,
+          });
         } else if (state is AuthFailure) {
           showToast(state.message);
         }
@@ -53,12 +56,11 @@ class _CustomLoginFormState extends State<CustomLoginForm> {
                     text: AppText.login,
                     onPressed: () {
                       if (authBloc.loginFormKey.currentState!.validate()) {
-                        authBloc.add(
-                          AuthSingInEvent(
-                              phoneNumber: phoneNumperController.text.trim(),
-                              id: '',
-                              smsCode: ''),
-                        );
+                        // authBloc.add(
+                        //   AuthSignInEvent(
+                        //       phoneNumber: phoneNumperController.text.trim(),
+                        //      ),
+                        // );
                       } else {
                         showToast('Please enter a valid phone number');
                       }

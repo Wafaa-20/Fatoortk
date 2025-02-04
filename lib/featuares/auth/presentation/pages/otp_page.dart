@@ -5,27 +5,34 @@ import 'package:flutter/material.dart';
 
 class OtpPage extends StatelessWidget {
   const OtpPage({super.key});
-
+ 
   @override
   Widget build(BuildContext context) {
-    return const SafeArea(
+    final args =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+
+    final String verificationId =
+        args?['verificationId'] ?? ''; 
+    final bool isSignUp = args?['isSignUp'] ?? true;
+    return SafeArea(
       child: Scaffold(
           body: Padding(
-        padding: EdgeInsets.all(24),
+        padding: const EdgeInsets.all(24),
         child: CustomScrollView(
           slivers: [
-            SliverToBoxAdapter(child: SizedBox(height: 59)),
-            SliverToBoxAdapter(
+            const SliverToBoxAdapter(child: SizedBox(height: 59)),
+            const SliverToBoxAdapter(
                 child: Align(
                     alignment: Alignment.center,
                     child: WelcomeTextWidget(
                       text: AppText.enterCode,
                       text2: AppText.digitCode,
                     ))),
-            SliverToBoxAdapter(child: SizedBox(height: 40)),
+            const SliverToBoxAdapter(child: SizedBox(height: 40)),
             SliverToBoxAdapter(
                 child: OtpWidget(
-              verificationId: '',
+              verificationId: verificationId,
+              isSignUp: isSignUp,
             )),
           ],
         ),

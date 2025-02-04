@@ -1,3 +1,4 @@
+// import 'package:fatoortk/core/functions/custom_toast.dart';
 import 'package:fatoortk/core/functions/custom_toast.dart';
 import 'package:fatoortk/core/functions/navigation.dart';
 import 'package:fatoortk/core/text/app_text.dart';
@@ -10,9 +11,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pinput/pinput.dart';
 
 class OtpWidget extends StatefulWidget {
-  const OtpWidget({super.key, required this.verificationId});
-
+  const OtpWidget(
+      {super.key, required this.verificationId, required this.isSignUp});
   final String verificationId;
+  final bool? isSignUp;
 
   @override
   State<OtpWidget> createState() => _OtpWidgetState();
@@ -20,19 +22,42 @@ class OtpWidget extends StatefulWidget {
 
 class _OtpWidgetState extends State<OtpWidget> {
   final otpController = TextEditingController();
+  final otpFocusNode = FocusNode();
 
   @override
   void dispose() {
     otpController.dispose();
+    otpFocusNode.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    final bool isSignUp = widget.isSignUp ?? true;
+
     final AuthBloc authBloc = context.read<AuthBloc>();
+
     return BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) {
-        if (state is AuthSuccess) {
+        if (state is SmsOtpVerifiedState) {
+          if (isSignUp) {
+            authBloc.add(AuthSignUpEvent(
+              name: authBloc.cachedName ?? "",
+              email: authBloc.cachedEmail ?? "",
+              phoneNumber: authBloc.cachedPhoneNumber ?? "",
+              smsCode: otpController.text.trim(),
+              verificationId: widget.verificationId,
+            ));
+          } else {
+            authBloc.add(
+              AuthSignInEvent(
+                id: widget.verificationId,
+                phoneNumber: authBloc.cachedPhoneNumber ?? "",
+                smsCode: otpController.text.trim(),
+              ),
+            );
+          }
+        } else if (state is AuthSuccess) {
           customReplacementNavigate(context, '/home');
         } else if (state is AuthFailure) {
           showToast(state.message);
@@ -48,13 +73,12 @@ class _OtpWidgetState extends State<OtpWidget> {
               padding: const EdgeInsets.only(
                   top: 16, bottom: 16, left: 10, right: 10),
               child: Pinput(
-                  controller: otpController,
-                  length: 6,
-                  onCompleted: (otp) {
-                    authBloc.add(ValidateOtpEvent(otp: otp));
-                  },
-                  defaultPinTheme: LightMode.defaultPinTheme,
-                  focusedPinTheme: LightMode.focusedPinTheme),
+                controller: otpController,
+                focusNode: otpFocusNode,
+                length: 6,
+                defaultPinTheme: LightMode.defaultPinTheme,
+                focusedPinTheme: LightMode.focusedPinTheme,
+              ),
             ),
             const SizedBox(height: 100),
             const ResendCode(),
@@ -62,17 +86,19 @@ class _OtpWidgetState extends State<OtpWidget> {
             CustomBtn(
               text: AppText.continues,
               onPressed: () {
-                final otpCode = otpController.text.trim();
+                String otpCode = otpController.text.trim();
 
                 if (otpCode.isNotEmpty && otpCode.length == 6) {
-                  authBloc.add(
-                    AuthSingUpEvent(
-                      name: '',
-                      email: '',
-                      phoneNumber: widget.verificationId,
-                      smsCode: otpCode,
-                    ),
-                  );
+                  if (widget.verificationId.isNotEmpty) {
+                    authBloc.add(
+                      VerifySmsOtpEvent(
+                        verificationId: widget.verificationId,
+                        smsCode: otpCode,
+                      ),
+                    );
+                  } else {
+                    showToast('Error: Verification ID is missing.');
+                  }
                 } else {
                   showToast('Please enter a valid OTP');
                 }
